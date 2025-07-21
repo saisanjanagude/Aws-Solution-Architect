@@ -3,6 +3,7 @@ pipeline {
 
     environment {
         AWS_REGION = 'ap-south-1'
+        INSTANCE_NAME = 'MyJenkinsEC2cloudformation'  // You can customize this
     }
 
     stages {
@@ -30,10 +31,12 @@ pipeline {
                         aws cloudformation deploy \
                           --stack-name MyEC2InstanceStack \
                           --template-file "AWS Cloudformation Templates/02_ec2cft.yml" \
-                          --capabilities CAPABILITY_NAMED_IAM
+                          --capabilities CAPABILITY_NAMED_IAM \
+                          --parameter-overrides InstanceName=$INSTANCE_NAME
                     '''
                 }
             }
         }
     }
 }
+
