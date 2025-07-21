@@ -5,4 +5,4 @@ Resources:
     S3BucketCore:
       Type: 'AWS::S3::Bucket'
       Properties:
-          BucketName: s3interlcorebukett1
+          BucketName: s3createbucket
