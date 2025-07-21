@@ -2,9 +2,7 @@ pipeline {
     agent any
 
     environment {
-        AWS_ACCESS_KEY_ID = credentials('aws_s3_cloudformationdemo')
-        AWS_SECRET_ACCESS_KEY = credentials('aws_s3_cloudformationdemo')
-        AWS_DEFAULT_REGION = 'ap-south-1'
+        AWS_DEFAULT_REGION = 'ap-south-1'  // or whatever region you want
     }
 
     stages {
@@ -16,7 +14,13 @@ pipeline {
 
         stage('Deploy CloudFormation Stack') {
             steps {
-                script {
+                withCredentials([
+                    usernamePassword(
+                        credentialsId: 'aws_s3_cloudformationdemo',
+                        usernameVariable: 'AWS_ACCESS_KEY_ID',
+                        passwordVariable: 'AWS_SECRET_ACCESS_KEY'
+                    )
+                ]) {
                     sh '''
                         aws configure set aws_access_key_id $AWS_ACCESS_KEY_ID
                         aws configure set aws_secret_access_key $AWS_SECRET_ACCESS_KEY
